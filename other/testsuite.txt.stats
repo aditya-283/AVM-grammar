@@ -1,0 +1,36 @@
+((1) (0 0.002 0) (2 words))
+((2) (1 0.000 8) (2 words))
+((3) (1 0.000 10) (3 words))
+((4) (0 0.000 0) (3 words))
+((5) (0 0.000 0) (2 words))
+((6) (1 0.000 12) (3 words))
+((7) (1 0.004 14) (4 words))
+((8) (1 0.000 16) (5 words))
+((9) (1 0.000 16) (5 words))
+((10) (0 0.000 14) (4 words))
+((11) (0 0.000 0) (5 words))
+((12) (0 0.000 0) (4 words))
+((13) (0 0.004 36) (11 words))
+
+XLE release of Mar 17, 2017 21:12.
+Grammar = /afs/andrew.cmu.edu/usr10/abhagwa2/private/abhagwa2/722/english.lfg.
+Grammar last modified on Apr 02, 2022 20:02.
+Host machine is linux-24.andrew.cmu.edu.
+13 sentences, 0 errors, 0 mismatches
+7 sentences had 0 parses
+6 good sentences
+6 sentences had exactly one grammatical parse
+timeout = 100
+max_xle_scratch_storage = 100 MB
+prune_subtree_location = 1
+max_new_events_per_graph_when_skimming = 500
+maximum raw subtrees per sentence = 110 (#13)
+maximum event count per sentence = 1179
+average event count per graph = 33.143
+0.010 CPU secs total, 0.004 CPU secs max
+elapsed time = 0 seconds
+  range parsed failed  words   seconds  subtrees     optimal
+   1-10      6      6   3.67     0.001     12.67        1.00
+  11-20      0      1
+    all      6      7   3.67     0.001     12.67        1.00
+0.04 of the variance in seconds is explained by the number of subtrees

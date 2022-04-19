@@ -1,0 +1,57 @@
+
+#0
+
+teacher sits (0 0.002 0)
+
+#1
+
+teachers sit (1 0.000 8)
+
+#2
+
+the teacher sits (1 0.000 10)
+
+#3
+
+teachers sit guitars (0 0.000 0)
+
+#4
+
+teacher sees (0 0.000 0)
+
+
+#5
+
+teachers see guitars (1 0.000 12)
+
+
+#6
+
+a teacher sees guitars (1 0.004 14)
+
+#7
+
+the teacher sees the guitars (1 0.000 16)
+
+#8 
+
+the teacher sees a guitar (1 0.000 16)
+
+#9 
+
+the teacher sees guitar (0 0.000 14)
+
+#10 
+
+the teacher sees this guitar (0 0.000 0)
+
+
+#11 
+
+These teachers see guitars (0 0.000 0)
+
+#12
+
+he seems to believe that he knows that he sees guitars (0 0.004 36)
+
+# 13 sentences, 0.010 CPU secs total, 0.004 CPU secs max (04/04/22)

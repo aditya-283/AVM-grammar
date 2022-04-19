@@ -1,0 +1,126 @@
+PROJECT    ENGLISH   CONFIG (1.0)
+  ROOTCAT   S.
+  FILES  .
+  LEXENTRIES   (PROJECT ENGLISH).
+  RULES   (PROJECT ENGLISH).
+  TEMPLATES   (PROJECT ENGLISH).
+  GOVERNABLERELATIONS    SUBJ OBJ OBL REL-CL COMP XCOMP.
+  NONDISTRIBUTIVES    NUM PERS.
+  EPSILON   e.
+  OPTIMALITYORDER     NOGOOD.
+
+----
+PROJECT   ENGLISH   RULES (1.0)
+
+S --> NP: (^ SUBJ)=!; VP: ^=!.
+
+S-WH --> { WH: (^ SUBJ)=!; Aux: ^=!; S: (^ XCOMP)=! | 
+           WH: (^ OBJ)=!; Aux: ^=!; S: (^ XCOMP)=! | 
+           WH: (^ SUBJ)=!; Aux: ^=!; VP: (^ XCOMP)=! | 
+           WH: (^ OBJ)=!; Aux: ^=!; VP: (^ XCOMP)=! }.  
+
+NP --> (DET: ^=!) N-bar: ^=!.
+
+N-bar -->  N: ^=!; S-bar: (^ REL-CL)=!.
+
+S-bar --> { RelPro: (^ SUBJ)=!; S: ^=! | 
+            RelPro: (^ OBJ)=!; S: ^=! | 
+            RelPro: (^ SUBJ)=!; VP: ^=! | 
+            RelPro: (^ OBJ)=!; VP: ^=! }.
+
+   ---- 
+PROJECT ENGLISH TEMPLATES (1.0)
+
+"Noun Template"
+
+
+NOUN(P N) = (^ PRED)='P'
+(^ PERS)=3
+(^ NUM)=N.
+
+
+"Pronoun Template"
+
+
+PRON(P C PN N) = (^ PRED)='P'
+(^ CASE)=C
+(^ PERS)=PN
+(^ NUM)=N.
+
+
+"Preposition Template"
+
+
+PREP(P) = (^ PRED)='P<(^ OBJ)>'
+(^ OBJ CASE)=acc.
+
+
+
+   ---- 
+
+PROJECT ENGLISH LEXICON (1.0)
+
+"Pronouns"
+
+
+I       PRO * @(PRON I nom 1 sg).
+
+me      PRO * @(PRON me acc 1 sg).
+
+we      PRO * @(PRON we nom 1 pl).
+
+us      PRO * @(PRON us acc 1 pl).
+
+you     PRO * { @(PRON you nom 2 sg) | @(PRON you acc 2 sg) }.
+
+he      PRO * @(PRON he nom 3 sg).
+
+him     PRO * @(PRON him acc 3 sg).
+
+she     PRO * @(PRON she nom 3 sg).
+
+her     PRO * @(PRON her acc 3 sg).
+
+it   	PRO * (^ FORM)=it.
+
+they    PRO * @(PRON they nom 3 pl).
+
+them    PRO * @(PRON them acc 3 pl).
+
+there   PRO * (^ FORM)=there.
+
+
+
+"Determiners"
+
+a 	  DET * (^ DEF)=-
+	      	(^ NUM)=sg.
+
+
+the 	  DET * (^ DEF)=+.
+
+
+that 	  C * .
+
+
+"Nouns"
+
+
+teacher   N * @(NOUN teacher sg)
+	      (^ DEF).
+
+
+teachers  N * @(NOUN teacher pl).
+
+
+man   	  N * @(NOUN man sg)
+	      (^ DEF).
+
+
+guitar    N * @(NOUN guitar sg)
+	      (^ DEF).
+
+
+guitars   N * @(NOUN guitar pl).
+
+   ---- 
