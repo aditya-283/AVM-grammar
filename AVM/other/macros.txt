@@ -1,8 +1,0 @@
-#7 macros to make 7 kinds of verbs
-see
-seeing
-seen    (have seen, was seen)
-to see
-sees
-saw
-

@@ -4,32 +4,85 @@ PROJECT    ENGLISH   CONFIG (1.0)
   LEXENTRIES   (PROJECT ENGLISH).
   RULES   (PROJECT ENGLISH).
   TEMPLATES   (PROJECT ENGLISH).
-  GOVERNABLERELATIONS    SUBJ OBJ OBL REL-CL COMP XCOMP.
+  GOVERNABLERELATIONS    SUBJ OBJ OBJ2 OBL OBL-?+ COMP XCOMP.
+  SEMANTICFUNCTIONS    ADJUNCT  TOPIC.
   NONDISTRIBUTIVES    NUM PERS.
   EPSILON   e.
   OPTIMALITYORDER     NOGOOD.
+
+
+<comment>
+
+               Language Technologies Institute
+                 Carnegie-Mellon University
+                                                                       
+*******************************************************************
+                                                                       
+ Copyright (c) 2018
+ Carnegie Mellon University.  All Rights Reserved.                      
+                                                                       
+*******************************************************************
+
+     File Name: grammar.lfg
+    Maintainer: Katherine Zhang
+       Created: 
+ Last Modified: 
+       Version:  2.0
+
+*******************************************************************
+ File Description:
+ 
+ 
+*******************************************************************
+ Grammar Description:
+
+ Feature structures:
+
+    Attribute     Value               Comments
+    *****************************************************
+
+    number        sg            ; singular
+                  pl            ; plural
+    person        1             ; 1st person
+                  2             ; 2nd person
+                  3             ; 3rd person            
+    tense         prs		; present
+                  pst		; past
+    definiteness  +, -
+
+</comment>
+
+
 
 ----
 PROJECT   ENGLISH   RULES (1.0)
 
 S --> NP: (^ SUBJ)=!; VP: ^=!.
+ 	     	 	
+NP --> { PRO: ^=! | (DET: ^=!) N-bar: ^=! }.
 
-S-WH --> { WH: (^ SUBJ)=!; Aux: ^=!; S: (^ XCOMP)=! | 
-           WH: (^ OBJ)=!; Aux: ^=!; S: (^ XCOMP)=! | 
-           WH: (^ SUBJ)=!; Aux: ^=!; VP: (^ XCOMP)=! | 
-           WH: (^ OBJ)=!; Aux: ^=!; VP: (^ XCOMP)=! }.  
+N-bar --> N: ^=!; (PP: (^ ADJUNCT)=!).
 
-NP --> (DET: ^=!) N-bar: ^=!.
+S-bar --> (C: ^=!) S: ^=!.
 
-N-bar -->  N: ^=!; S-bar: (^ REL-CL)=!.
+VP --> { Aux: ^=!; (Adv: ^=!) V-bar: (^ XCOMP)=! | V-bar: ^=! }.
 
-S-bar --> { RelPro: (^ SUBJ)=!; S: ^=! | 
-            RelPro: (^ OBJ)=!; S: ^=! | 
-            RelPro: (^ SUBJ)=!; VP: ^=! | 
-            RelPro: (^ OBJ)=!; VP: ^=! }.
+V-bar --> { V: ^=!; (NP: (^ OBJ)=!) S-bar: (^ COMP)=! |
+	    V: ^=!; S: (^ XCOMP)=! |
+	    V: ^=!; VP: (^ XCOMP)=! |
+	    V: ^=!; V-bar: (^ XCOMP)=! |
+		V: ^=!; NP: (^ XCOMP)=! |
+		V: ^=!; NP: (^ OBJ2)=! |
+	    V: ^=!; (NP: (^ OBJ)=!) (PP: (^ OBL)=!) |
+	    V: ^=!; NP: (^ OBJ) =!; NP: (^ OBJ2)=! |
+	    V: ^=!; PP: (^ ADJUNCT)=! }.
+
+PP --> P: ^=!; NP: (^ OBJ)=!.
+ 	  
 
    ---- 
 PROJECT ENGLISH TEMPLATES (1.0)
+
 
 "Noun Template"
 
@@ -55,10 +108,130 @@ PREP(P) = (^ PRED)='P<(^ OBJ)>'
 (^ OBJ CASE)=acc.
 
 
+"Verb Templates"
+
+
+AUX(P F SC) = (^ PRED)='P<(^ XCOMP)>(^ SUBJ)'
+(^ FORM)=F
+(^ XCOMP FORM)=bare
+(^ SUBJ)=(^ XCOMP SUBJ)
+(^ SUBJ CASE)=SC.
+
+COP(P T PN N) = (^ PRED)='P<(^ SUBJ)(^ XCOMP)>'
+(^ FORM)=fin
+(^ TENSE)=T
+(^ SUBJ CASE)=nom
+(^ SUBJ PERS)=PN
+(^ SUBJ NUM)=N
+(^ XCOMP NUM)=N.
+
+COP-PASS(P T PN N XF) = (^ PRED)='P<(^ XCOMP)>(^ SUBJ)'
+(^ FORM)=fin
+(^ TENSE)=T
+(^ XCOMP FORM)=XF
+(^ SUBJ)=(^ XCOMP SUBJ)
+(^ SUBJ CASE)=nom
+(^ SUBJ PERS)=PN
+(^ SUBJ NUM)=N.
+
+EXIST(P T N) = (^ PRED)='P<(^ OBJ2)>(^ SUBJ)'
+(^ FORM)=fin
+(^ TENSE)=T
+(^ SUBJ FORM) =c there
+(^ OBJ2 NUM)=N.
+
+PERF(P F SC) = (^ PRED)='P<(^ XCOMP)>(^ SUBJ)'
+(^ FORM)=F
+(^ XCOMP FORM)=pst-part
+(^ SUBJ)=(^ XCOMP SUBJ)
+(^ SUBJ CASE)=SC.
+
+PRES = (^ TENSE)=prs
+{ (^ SUBJ PERS)~=3 | (^ SUBJ NUM)~=sg }.
+
+PRES-3SG = (^ TENSE)=prs
+(^ SUBJ PERS)=3
+(^ SUBJ NUM)=sg.
+
+INTR(P F SC) = (^ PRED)='P<(^ SUBJ)>'
+(^ FORM)=F
+(^ SUBJ CASE)=SC.
+
+TR(P F SC) = (^ PRED)='P<(^ SUBJ)(^ OBJ)>'
+(^ FORM)=F
+(^ SUBJ CASE)=SC
+(^ OBJ CASE)=acc.
+
+TR-PASS(P) = { (^ PRED)='P<(^ SUBJ)>' }
+(^ FORM)=pst-part.
+
+DTR(P F SC) = (^ PRED)='P<(^ SUBJ)(^ OBJ)(^ OBL)>'
+(^ FORM)=F
+(^ SUBJ CASE)=SC
+(^ OBJ CASE)=acc.
+
+DTR-DAT(P F SC) = (^ PRED)='P<(^ SUBJ)(^ OBJ)(^ OBJ2)>'
+(^ FORM)=F
+(^ SUBJ CASE)=SC
+(^ OBJ CASE)=acc.
+
+V-COMP(P F SC) = (^ PRED)='P<(^ SUBJ)(^ COMP)>'
+(^ FORM)=F
+(^ SUBJ CASE)=SC
+(^ COMP FORM)=fin.
+
+PRSD-COMP(P F SC) = (^ PRED)='P<(^ SUBJ)(^ OBJ)(^ COMP)>'
+(^ FORM)=F
+(^ SUBJ CASE)=SC
+(^ OBJ 	CASE)=acc
+(^ COMP FORM)=fin.
+
+SEEM-COMP(P F) = (^ PRED)='P<(^ COMP)>(^ SUBJ)'
+(^ FORM)=F
+(^ COMP FORM)=fin
+(^ SUBJ FORM) =c it.
+
+SEEM-XCOMP(P F SC) = (^ PRED)='P<(^ XCOMP)>(^ SUBJ)'
+(^ FORM)=F
+(^ SUBJ CASE)=SC
+(^ XCOMP FORM)=inf
+(^ SUBJ)=(^ XCOMP SUBJ).
+
+TRY(P F SC) = (^ PRED)='P<(^ SUBJ)(^ XCOMP)>'
+(^ FORM)=F
+(^ SUBJ CASE)=SC
+(^ XCOMP FORM)=inf
+(^ SUBJ)=(^ XCOMP SUBJ).
+
+TRY-PRESPART(P F SC) = (^ PRED)='P<(^ SUBJ)(^ XCOMP)>'
+(^ FORM)=F
+(^ SUBJ CASE)=SC
+(^ XCOMP FORM)=pres-part
+(^ SUBJ)=(^ XCOMP SUBJ).
+
+
+BLV-OBJ-XCOMP(P F SC) = (^ PRED)='P<(^ SUBJ)(^ XCOMP)>(^ OBJ)'
+(^ FORM)=F
+(^ SUBJ CASE)=SC
+(^ XCOMP FORM)=inf
+(^ OBJ)=(^ XCOMP SUBJ).
+
+BLV-SUBJ-XCOMP(P F SC) = (^ PRED)='P<(^ XCOMP)>(^ SUBJ)'	
+(^ FORM)=F
+(^ SUBJ CASE)=SC
+(^ XCOMP FORM)=inf
+(^ SUBJ)=(^ XCOMP SUBJ).
+
+PRSD-OBJ-XCOMP(P F SC) = (^ PRED)='P<(^ SUBJ)(^ OBJ)(^ XCOMP)>'
+(^ FORM)=F
+(^ SUBJ CASE)=SC
+(^ XCOMP FORM)=inf
+(^ OBJ)=(^ XCOMP SUBJ).
+
 
    ---- 
-
 PROJECT ENGLISH LEXICON (1.0)
+
 
 "Pronouns"
 
@@ -90,7 +263,6 @@ them    PRO * @(PRON them acc 3 pl).
 there   PRO * (^ FORM)=there.
 
 
-
 "Determiners"
 
 a 	  DET * (^ DEF)=-
@@ -116,11 +288,339 @@ teachers  N * @(NOUN teacher pl).
 man   	  N * @(NOUN man sg)
 	      (^ DEF).
 
+student N * @(NOUN student sg)
+	      (^ DEF).
+
+students  N * @(NOUN student pl).
+
+book    N * @(NOUN book sg)
+	      (^ DEF).
 
 guitar    N * @(NOUN guitar sg)
 	      (^ DEF).
 
+books   N * @(NOUN book pl).
 
 guitars   N * @(NOUN guitar pl).
 
-   ---- 
+
+porch	  N * @(NOUN porch sg)
+	      (^ DEF).
+
+
+water	  N * @(NOUN water sg)
+	      ~(^ DEF).
+
+
+Amie	  N * @(NOUN Amie sg)
+	      ~(^ DEF).
+
+Pat	  	  N * @(NOUN Pat sg)
+	      ~(^ DEF).
+
+Chris	  N * @(NOUN Chris sg)
+	      ~(^ DEF).
+
+Indigo	  N * @(NOUN Indigo sg)
+	      ~(^ DEF).
+
+
+"Prepositions"
+
+
+with   P * @(PREP with).
+
+
+on     P * @(PREP on).
+
+
+to     P * @(PREP to);
+       Aux * { @(AUX to inf nom) |
+       	       @(AUX to inf acc) }.
+
+
+by     P * @(PREP by).
+
+
+"Verbs"
+
+
+will	  Aux * @(AUX will fin nom).
+
+might 	  Aux * @(AUX might fin nom).
+
+can	  Aux * @(AUX can fin nom).
+
+
+may	  Aux * @(AUX may fin nom).
+
+
+must	  Aux * @(AUX must fin nom).
+
+
+be	  V * @(COP be prs 1 sg).
+
+
+am	  V * @(COP be prs 1 sg).
+
+
+are	  	V * { @(COP be prs 1 pl) |
+			  @(COP be prs 2 sg) | 
+			  @(COP be prs 2 pl) |
+			  @(COP be prs 3 pl) |
+			  @(EXIST be prs pl) } ;
+		Aux * { @(COP-PASS be prs 1 pl pres-part) |
+	      	@(COP-PASS be prs 2 sg pres-part) |
+	      	@(COP-PASS be prs 2 pl pres-part) |
+	      	@(COP-PASS be prs 3 pl pres-part) }.
+
+were  	V * { @(COP be pst 1 pl) |
+			  @(COP be pst 2 sg) | 
+			  @(COP be pst 2 pl) |
+			  @(COP be pst 3 pl) |
+			  @(EXIST be prs pl) };
+		Aux * { 
+			@(COP-PASS be pst 1 pl pres-part) |
+	      	@(COP-PASS be pst 2 sg pres-part) |
+	      	@(COP-PASS be pst 2 pl pres-part) |
+	      	@(COP-PASS be pst 3 pl pres-part) |
+			@(COP-PASS be pst 1 pl pst-part) |
+	      	@(COP-PASS be pst 2 sg pst-part) |
+	      	@(COP-PASS be pst 2 pl pst-part) |
+	      	@(COP-PASS be pst 3 pl pst-part) }.
+
+is	  V * { @(COP be prs 3 sg) |
+	      	@(EXIST be prs sg) }.
+
+
+was	  	V * { @(COP be prs 1 sg) |
+			  @(COP be prs 3 sg) } ;
+	    Aux * { @(COP-PASS be pst 1 sg pst-part) |
+	      	  @(COP-PASS be pst 3 sg pst-part) |
+			  @(COP-PASS be pst 1 sg pres-part) |
+	      	  @(COP-PASS be pst 3 sg pres-part) }.
+
+
+have	  Aux * @(PERF have fin nom)
+	      	@(PRES).
+
+
+has	  Aux * @(PERF have fin nom)
+	      @(PRES-3SG).
+
+
+sit	  V * @(INTR sit fin nom)
+	      @(PRES).
+
+
+sits	  V * @(INTR sit fin nom)
+	      @(PRES-3SG).
+
+
+sat	  V * @(INTR sit fin nom)
+	      (^ TENSE)=pst.
+
+
+sing	  V * { @(INTR sing fin nom) @(PRES) |
+				@(INTR sing bare nom) |
+				@(INTR sing bare acc) }.
+
+
+sings	  V * @(INTR sing fin nom)
+	      @(PRES-3SG).
+
+
+sang	  V * @(INTR sing fin nom)
+	      (^ TENSE)=pst.
+
+
+yawn	  V * { @(INTR yawn fin nom) @(PRES) |
+				@(INTR yawn bare nom) |
+				@(INTR yawn bare acc) }.
+
+
+yawns	  V * @(INTR yawn fin nom)
+	      @(PRES-3SG).
+
+
+yawned	  V * { @(INTR yawn fin nom) |
+				@(INTR yawn pst-part nom) }
+	      (^ TENSE)=pst.
+
+
+yawning   V * @(INTR yawn pres-part nom).
+
+sleep	  V * { @(INTR sleep fin nom) @(PRES) |
+				@(INTR sleep bare nom) |
+				@(INTR sleep bare acc) }.
+
+
+sleeps	  V * @(INTR sleep fin nom)
+	      	  @(PRES-3SG).
+
+
+slept	  V * { @(INTR sleep fin nom) |
+				@(INTR sleep pst-part nom) }
+	      		(^ TENSE)=pst.
+
+sleeping   V * @(INTR sleep pres-part nom).
+
+smile	  V * { @(INTR smile fin nom) @(PRES) |
+				@(INTR smile bare nom) |
+				@(INTR smile bare acc) }.
+
+
+smiles	  V * @(INTR smile fin nom)
+	      	  @(PRES-3SG).
+
+
+smiled	  V * { @(INTR smile fin nom) |
+				@(INTR smile pst-part nom) }
+	    	(^ TENSE)=pst.
+
+smiling   V * @(INTR smile pres-part nom).
+
+
+see	  V * { @(TR see fin nom) @(PRES) | 
+		  	@(TR see bare nom) }.
+
+
+sees	  V * @(TR see fin nom)
+	      @(PRES-3SG).
+
+
+saw	  V * @(TR see fin nom)
+	      (^ TENSE)=pst.
+
+
+seen	  V * { @(TR see pst-part nom) |
+	      		@(TR see pst-part acc) |
+	      		@(TR-PASS see) }.
+
+greet 	V * { @(TR greet fin nom) @(PRES) | 
+				@(TR greet bare nom) }.
+
+greets    V * @(TR greet fin nom)
+	      	  @(PRES-3SG).
+
+greeted	   V * { @(TR greet fin nom) (^ TENSE)=pst |
+				 @(TR greet pst-part nom) |
+	      		 @(TR greet pst-part acc) |
+	      		 @(TR-PASS greet) }.
+
+reads		V * @(TR read fin nom)
+	      	  @(PRES-3SG).
+
+read		V  * { @(TR read fin nom) @(PRES) | 
+					@(TR read bare nom) |
+					@(TR read fin nom) (^ TENSE)=pst | 
+					@(TR read pst-part nom) |
+	      		 	@(TR read pst-part acc) |
+					@(TR-PASS read)}.
+
+
+give	  V * { @(DTR give fin nom) |
+				@(DTR give bare nom) |
+			@(DTR-DAT give fin nom) }
+	      	@(PRES).
+
+
+gives	  V * { @(DTR give fin nom) |
+	      	@(DTR-DAT give fin nom) }
+	      @(PRES-3SG).
+
+
+gave	  V * { @(DTR give fin nom) |
+	      	@(DTR-DAT give fin nom) }
+	      (^ TENSE)=pst.
+
+given 	V * { @(TR give pst-part nom) |
+	      	  @(TR give pst-part acc) |
+	      	  @(TR-PASS give) }.
+
+
+
+try		V * { @(TRY try fin nom)
+	      @(PRES) | 
+		  @(TRY try bare nom) }.
+
+tries	  V * @(TRY try fin nom)
+	      @(PRES-3SG).
+
+
+seem 	 V * { @(SEEM-COMP seem fin) |
+	      	@(SEEM-XCOMP seem fin nom) @(PRES) |
+			@(SEEM-XCOMP seem bare nom) }.
+
+seems	  V * { @(SEEM-COMP seem fin) |
+	      	@(SEEM-XCOMP seem fin nom) }
+	      @(PRES-3SG).
+
+appear 	 V * { @(SEEM-COMP appear fin) |
+	      	@(SEEM-XCOMP appear fin nom) @(PRES) |
+			@(SEEM-XCOMP appear bare nom) }.
+
+appears	  V * { @(SEEM-COMP appear fin) |
+	      	@(SEEM-XCOMP appear fin nom) }
+	      @(PRES-3SG).
+
+happened V * { @(SEEM-COMP happen fin) (^ COMP TENSE)=pst |
+	      	@(SEEM-XCOMP happen fin nom) }
+	      (^ TENSE)=pst.
+		
+
+happen 	 V * { @(SEEM-COMP happen fin) |
+	      	@(SEEM-XCOMP happen fin nom) @(PRES) |
+			@(SEEM-XCOMP happen bare nom) }.
+
+tends 	V * @(SEEM-XCOMP tend bare nom) @(PRES-3SG).
+
+tend	V * { @(SEEM-XCOMP tend fin nom) @(PRES) |
+			@(SEEM-XCOMP tend bare nom) }.
+
+remembered V * { @(TRY remember fin nom) | 
+			  (^ PRED)='remember<(^ SUBJ)(^ COMP)>'
+			  (^ COMP FORM)=fin }.
+
+started V * {  @(TRY start fin nom) | 
+			   @(TRY-PRESPART start pres-fin nom) }.
+
+say	  V * @(V-COMP say fin nom)
+	      @(PRES).
+
+
+believe	  V * @(V-COMP believe fin nom)
+	      @(PRES).
+
+believes  V * { @(V-COMP believe fin nom) |
+				@(BLV-OBJ-XCOMP believe fin nom)  }
+		@(PRES-3SG).
+
+believed  V * { @(V-COMP believe fin nom) (^ TENSE)=pst |
+				@(BLV-OBJ-XCOMP believe fin nom) (^ TENSE)=pst  |
+				@(BLV-SUBJ-XCOMP believe pst-part nom) }.
+
+know	  V * { @(V-COMP know fin nom) |
+	      	@(BLV-OBJ-XCOMP know fin nom) }
+	      @(PRES).
+
+
+knows	  V * { @(V-COMP know fin nom) |
+	      	@(BLV-OBJ-XCOMP know fin nom) }
+	      @(PRES-3SG).
+
+
+told  	  V * { @(PRSD-OBJ-XCOMP tell fin nom) |
+	      	@(PRSD-COMP tell fin nom) }
+	      (^ TENSE)=pst.
+
+
+"Adverbs"
+
+
+not   Adv * (^ NEG)=+.
+
+
+
+----
+
