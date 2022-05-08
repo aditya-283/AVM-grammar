@@ -1,4 +1,4 @@
 *.swp
 *.errors
 *.new
-*.stats
+*.stats**/.DS_Store

@@ -1,0 +1,51 @@
+
+#0
+
+teacher sits
+
+#1
+
+teachers sit
+
+#2
+
+the teacher sits
+
+#3
+
+teachers sit guitars
+
+#4
+
+teacher sees
+
+
+#5
+
+teachers see guitars
+
+
+#6
+
+a teacher sees guitars
+
+#7
+
+the teacher sees the guitars
+
+#8 
+
+the teacher sees a guitar
+
+#9 
+
+the teacher sees guitar
+
+#10 
+
+the teacher sees this guitar
+
+
+#11 
+
+These teachers see guitars

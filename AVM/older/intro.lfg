@@ -1,0 +1,147 @@
+PROJECT    ENGLISH   CONFIG (1.0)
+  ROOTCAT   S.
+  FILES  .
+  LEXENTRIES   (PROJECT ENGLISH).
+  RULES   (PROJECT ENGLISH).
+  TEMPLATES   (PROJECT ENGLISH).
+  GOVERNABLERELATIONS    SUBJ OBJ.
+  NONDISTRIBUTIVES    NUM.
+  EPSILON   e.
+  OPTIMALITYORDER     NOGOOD.
+
+<comment>
+
+               Language Technologies Institute
+                 Carnegie-Mellon University
+                                                                       
+*******************************************************************
+
+     File Name: intro.lfg
+    Maintainer: Aditya Bhagwat
+       Created: 04/02/2022
+ Last Modified: 04/02/2022
+       Version:  2.0
+
+*******************************************************************
+ File Description: A tiny LFG grammar
+ 
+ 
+*******************************************************************
+ Grammar Description:
+
+ Feature structures:
+
+    Attribute     Value               Comments
+    *****************************************************
+
+    number        sg            ; singular
+                  pl            ; plural
+    person        1             ; 1st person
+                  2             ; 2nd person
+                  3             ; 3rd person            
+    definiteness  +, -
+
+</comment>
+
+----
+PROJECT   ENGLISH   RULES (1.0)
+
+S  -->    NP: (^ SUBJ)=! ; VP: ^=! (^ FORM) = fin.
+NP -->  (DET: ^=!) N: ^=!.
+VP -->  V: ^=! ; (NP: (^OBJ)=!).
+
+   ---- 
+PROJECT ENGLISH TEMPLATES (1.0)
+
+"Noun Template"
+
+NOUN(P N) = (^ PRED)='P'
+(^ NUM)=N.
+
+
+"Verb Templates"
+
+VS(P N) = (^ PRED)='P<(^ SUBJ)>'
+(^SUBJ NUM)=N.
+
+VO(P N) = (^ PRED)='P<(^ SUBJ)(^ OBJ)>'
+(^SUBJ NUM)=N.
+
+
+   ---- 
+PROJECT ENGLISH LEXICON (1.0)
+
+"Nouns"
+
+Pat         NP * @(NOUN Pat sg)
+            ~(^ DEF).
+
+Chris       NP * @(NOUN Chris sg)
+            ~(^ DEF).
+
+students    N * @(NOUN students pl).
+
+student     N * @(NOUN student sg)
+            (^ DEF).
+
+books       N * @(NOUN books pl).
+
+book        N * @(NOUN book sg) 
+                (^ DEF).
+
+teachers    N * @(NOUN teachers pl).
+
+teacher     N * @(NOUN teacher sg)
+            (^ DEF).
+
+
+
+"Determiners"
+
+a 	        DET * (^ DEF)=-
+	      	(^ NUM)=sg.
+
+
+the 	    DET * (^ DEF)=+.
+
+
+this 	    DET * (^ DEF)=+
+	      	(^ NUM)=sg.
+
+these 	     DET * (^ DEF)=+
+	      	(^ NUM)=pl.
+
+
+"Verbs"
+
+yawn        V * @(VS yawn pl)
+            (^ FORM)=fin.
+
+yawns       V * @(VS yawn sg)
+            (^ FORM)=fin.
+
+
+greet       V * @(VO greet pl)
+            (^ FORM)=fin.
+
+
+greets      V * @(VO greet sg)
+            (^ FORM)=fin.
+
+
+read        V * @(VO read pl)
+            (^ FORM)=fin.
+
+
+reads       V * @(VO read sg)
+            (^ FORM)=fin.
+
+
+yawning     V *  (^ PRED)='yawn<(^ SUBJ)>'
+                 (^ FORM)=inf.
+
+
+greeting    V * (^ PRED)='greet<(^ SUBJ)(^ OBJ)>'
+                (^ FORM)=inf.
+----
+

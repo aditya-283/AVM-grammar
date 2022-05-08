@@ -1,0 +1,15 @@
+I was given books (1 0.003 27)
+
+the books were given to Chris (1 0.003 31)
+
+Chris was given books (1 0.003 28)
+
+the students gave the books to Pat (1 0.002 30)
+
+I give him books (1 0.002 14)
+
+Chris gives the book (0 0.002 17)
+
+Pat gives the book to Chris (1 0.004 28)
+
+# 7 sentences, 0.019 CPU secs total, 0.004 CPU secs max (05/07/22)

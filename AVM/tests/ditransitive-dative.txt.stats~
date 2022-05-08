@@ -1,0 +1,32 @@
+((1) (1 0.003 27) (4 words))
+((2) (1 0.003 31) (6 words))
+((3) (1 0.003 28) (4 words))
+((4) (1 0.002 30) (7 words))
+((5) (1 0.002 14) (4 words))
+((6) (0 0.002 17) (4 words))
+((7) (1 0.004 28) (6 words))
+
+XLE release of Sep 25, 2017 21:02.
+Grammar = /Users/aditya/Desktop/Me/CMU/S22/11-722/AVM-grammar/AVM/wip.lfg.
+Grammar last modified on May 07, 2022 19:04.
+Host machine is Adityas-MacBook-Pro-2.local.
+7 sentences, 0 errors, 0 mismatches
+1 sentence had 0 parses
+6 good sentences
+6 sentences had exactly one grammatical parse
+timeout = 100
+max_xle_scratch_storage = 100 MB
+prune_subtree_location = 1
+max_new_events_per_graph_when_skimming = 500
+maximum raw subtrees per sentence = 56 (#2)
+maximum event count per sentence = 3570
+average event count per graph = 64.149
+tokens = 5.4%, morph = 6.2%, multiword = 0.2%, lex = 7.9%, chart = 32.9%,
+unifier = 37.7%, completer = 3.8%, solver = 6.0%, output = 0.0%
+max_alloc_mem = 198.62 MB
+0.019 CPU secs total, 0.004 CPU secs max
+elapsed time = 0 seconds
+  range parsed failed  words   seconds  subtrees     optimal
+   1-10      6      1   5.17     0.003     26.33        1.00
+    all      6      1   5.17     0.003     26.33        1.00
+0.09 of the variance in seconds is explained by the number of subtrees
